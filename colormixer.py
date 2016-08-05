@@ -34,13 +34,13 @@ def shuffle_action(sender):
     s3.value = random()
     slider_action(s1)
 
-layout_text =       '''\
-                    V-l-
-                    s---
-                    s---
-                    s---
-                    b-b-
-                    '''
+layout_text = '''
+              V-l-
+              s---
+              s---
+              s---
+              b-b-
+              '''
 
 attributes = {
     's':[
@@ -66,8 +66,8 @@ attributes = {
         ],
     'v':[{'background_color':'white'}]}
                            
-# Building and presenting main view                                                        
+# Building and presenting main view
 v = BuildView(layout_text, width=400, height=350,
-    view_name='Color Mixer', attributes=attributes).build_view() 
-slider_action(v['slider1'])    
+    view_name='Color Mixer', attributes=attributes).build_view()
+slider_action(v['slider1'])
 v.present('popover')
