@@ -58,14 +58,11 @@ def copy_action(sender):
     '@type sender: ui.Button'
     t1 = sender.superview['label1'].text
     t2 = sender.superview['label2'].text
-    if t2:
-        text = t2 + ' ' + t1
-    else:
-        text = t1
+    text = t2 + ' ' + t1 if t2 else t1
     clipboard.set(text)
     hud_alert('Copied')
    
-layout_text = ''' \
+layout_text = '''
 l-------
 l-------
 b-b-b-b-
