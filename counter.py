@@ -1,12 +1,11 @@
 import ui, textlayout
 
-cnt = 0
-def button_action(sender):
-    global cnt
-    cnt += 1
-    sender.superview['label1'].text = 'Counter:' + str(cnt)
 
-layout_text = '''\
+def button_action(sender):
+    label = sender.superview['label1']
+    label.text = 'Counter: ' + str(int(label.text.split()[-1]) + 1)
+
+layout_text = '''
 ********
 **l---**
 ********
@@ -26,7 +25,7 @@ attributes = {
        }],
      'l':[
           {
-            'text': 'Counter:0',
+            'text': 'Counter: 0',
             'alignment':  ui.ALIGN_CENTER,
             'font':('Helvetica', 20)
           }

@@ -24,7 +24,7 @@ layout_text
     # - counter aplication with one label and one button
     # - the label element - single row with four horizontal cells
     # - the button element - a rectangular box of 3*4 cells
-    layout_text = '''\
+    layout_text = '''
     ********
     **l---**
     ********
@@ -86,7 +86,7 @@ class LayoutProcessor(object):
         frame_map = {}
         for i, item_i in enumerate(lines):
             for j, item_j in enumerate(item_i):
-                if item_j in self.ui_element_map.keys(): #'bcdfgilstwV':
+                if item_j in self.ui_element_map: #'bcdfgilstwV':
                     frame_map.setdefault(item_j, []).append(
                             self.get_frame(lines, i, j))
         self.frame_map = frame_map
@@ -119,12 +119,8 @@ class BuildView(object):
         self.position = position
         self.width = width
         self.height = height
-        self.attributes = {}
-        for elem in self.ui_element_map:
-            self.attributes[elem] = []
-        if attributes:
-            for elem in attributes:
-                self.attributes[elem] += attributes[elem]
+        self.attributes = {elem: attributes.get(elem, [])
+                           for elem in self.ui_element_map}
         self.layout_processor = LayoutProcessor(layout_text,
             width=width, height=height,
             marginx=marginx, marginy=marginy,
@@ -136,10 +132,9 @@ class BuildView(object):
         index = idx + 1
         v = ui_element(name=((name)+ str(index)))
         v.frame = frame
-        if attributes:
-            for attr in attributes:
-                #print(attr, attributes[attr], type(attributes[attr]))
-                setattr(v, attr, attributes[attr])
+        for attr in attributes or []:
+            #print(attr, attributes[attr], type(attributes[attr]))
+            setattr(v, attr, attributes[attr])
         return v  
 
     def build_main_view_node(self, frame=(0, 0, 100, 100), attributes=None):
@@ -148,8 +143,8 @@ class BuildView(object):
         return v    
                         
     def build_view(self):
-        view_attr =  self.attributes['v'][0] if (
-            'v' in self.attributes and self.attributes['v']) else None
+        view_attr = self.attributes.get('v', None)
+        view_attr = view_attr[0] if view_attr else None
         main_view_node = self.build_main_view_node((self.position[0],
             self.position[1], self.width, self.height), view_attr)
         for ch in self.frame_map:
@@ -168,7 +163,7 @@ if __name__ == '__main__':
         cnt += 1
         sender.superview['label1'].text = 'Counter:' + str(cnt)
 
-    layout_text = '''\
+    layout_text = '''
     ********
     **l---**
     ********
